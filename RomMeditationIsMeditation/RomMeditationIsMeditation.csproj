@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>RoM_MeditationIsMeditation</AssemblyName>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+
+    <RWVersion>1.6</RWVersion>
+    
+    <ModOutputPath>..\$(RWVersion)\Assemblies\</ModOutputPath>
+
+    <ModName>RoM Meditation is Meditation</ModName>
+    <RimworldPathNormalized>$(RimworldPath.TrimEnd('\'))</RimworldPathNormalized>
+    <ModRoot Condition="'$(RimworldPath)' != ''">$(RimworldPathNormalized)\Mods\$(ModName)\</ModRoot>
+    <DeployPath Condition="'$(ModRoot)' != ''">$(ModRoot)$(RWVersion)\Assemblies\</DeployPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>Libs\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Libs\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>Libs\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>Libs\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>Libs\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AbilityUser">
+      <HintPath>Libs\AbilityUser.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TorannMagic">
+      <HintPath>Libs\TorannMagic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <ModResources Include="$(ProjectDir)..\LoadFolders.xml" TargetDir="" />
+    
+    <ModResources Include="$(ProjectDir)..\About\**\*.*" TargetDir="About\" />
+    <ModResources Include="$(ProjectDir)..\Common\**\*.*" TargetDir="Common\" />
+    
+    <ModResources Include="$(ProjectDir)..\$(RWVersion)\**\*.*" TargetDir="$(RWVersion)\" 
+                  Exclude="$(ProjectDir)..\$(RWVersion)\Assemblies\**\*.*" />
+
+  </ItemGroup>
+
+  <Target Name="CleanOutput" BeforeTargets="PreBuildEvent">
+    <Message Text="[Clean] Removing old files..." Importance="high" />
+    <RemoveDir Directories="$(ModOutputPath)" />
+    <RemoveDir Directories="$(DeployPath)" Condition="'$(DeployPath)' != ''" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="Build">
+    <Message Text="[Deploy] Target Version: $(RWVersion)" Importance="high" />
+
+    <MakeDir Directories="$(ModOutputPath);$(DeployPath)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModOutputPath)" />
+
+    <Message Text="[Deploy] RimworldPath not set. Skipping deploy to RimWorld mod folder."
+             Importance="high" Condition="'$(RimworldPath)' == ''" />
+
+    <MakeDir Directories="$(DeployPath)" Condition="'$(DeployPath)' != ''" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployPath)" Condition="'$(DeployPath)' != ''" />
+    <Copy SourceFiles="@(ModResources)"
+          DestinationFiles="@(ModResources->'$(ModRoot)%(TargetDir)%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" Condition="'$(ModRoot)' != ''" />
+
+    <Message Text="[Deploy] Successfully deployed to: $(ModRoot)" Importance="high" Condition="'$(ModRoot)' != ''" />
+    <Message Text="[Deploy] Build complete. Output: $(ModOutputPath)" Importance="high" Condition="'$(ModRoot)' == ''" />
+  </Target>
+</Project>

@@ -1,0 +1,10 @@
+<!-- Patches/TM_ChiHD_Patch.xml -->
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/HediffDef[defName="TM_ChiHD"]/comps</xpath>
+    <order>Append</order>
+    <value>
+      <li Class="RomMeditationIsMeditation.HediffCompProperties_ChiTarget" />
+    </value>
+  </Operation>
+</Patch>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>RoM Meditation is Meditation</name>
+  <author>nkkim0104</author>
+  <packageId>nkkim0104.RomMeditationIsMeditation.Unity</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <description>몽크가 로열티 명상이나 영혼나무 명상을 할 때, 몽크 전용 명상 효과(부상, 재미, 피로, 기 회복)가 동시에 적용되도록 합니다.</description>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+    </li>
+    <li>
+      <packageId>Torann.ARimWorldOfMagic</packageId>
+      <displayName>A RimWorld of Magic</displayName>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>Ludeon.RimWorld</li>
+    <li>Ludeon.RimWorld.Royalty</li>
+    <li>brrainz.harmony</li>
+    <li>zal.jecsliterwom</li>
+    <li>Torann.ARimWorldOfMagic</li>
+  </loadAfter>
+</ModMetaData>

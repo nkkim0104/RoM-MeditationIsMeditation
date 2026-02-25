@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Rider
+.idea/
+
+# 빌드된 DLL
+*.dll
+Libs/
+
+# OS
+.DS_Store
+Thumbs.db
